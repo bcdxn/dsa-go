@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+
+# OS Files
+Thumbs.db
+.DS_Store

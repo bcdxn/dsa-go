@@ -22,7 +22,7 @@
 ### Sorting
 
 - [ ] Bubble Sort
-- [ ] Insertion Sort
+- [x] Insertion Sort
 - [ ] Merge Sort 
 - [ ] Quick Sort
 - [ ] Shell Sort
@@ -34,3 +34,9 @@
 - [ ] Breadth First
 - [ ] Depth First
 - [ ] Dijkstra's algorithm (shortest path)
+
+## Tests
+
+```bash
+go test -v ./...
+```
