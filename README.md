@@ -21,7 +21,7 @@
 
 ### Sorting
 
-- [ ] Bubble Sort
+- [x] Bubble Sort
 - [x] Insertion Sort
 - [ ] Merge Sort 
 - [ ] Quick Sort

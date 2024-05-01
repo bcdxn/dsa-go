@@ -104,3 +104,11 @@ func TestInsertionSort(t *testing.T) {
 func TestInPlaceInsertionSort(t *testing.T) {
 	runTests(t, sort.InPlaceInsertion, true)
 }
+
+func TestBubbleSort(t *testing.T) {
+	runTests(t, sort.Bubble, false)
+}
+
+func TestInPlaceBubbleSort(t *testing.T) {
+	runTests(t, sort.InPlaceBubble, true)
+}
