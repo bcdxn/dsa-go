@@ -1,17 +1,19 @@
 package sort
 
-// Return a sorted copy of the given list using the [insertion sort algorithm]. This function
-// does not alter the given list.
+// Insertion returns a sorted copy of the given list using the [Insertion Sort algorithm][0]. This
+// function does not alter the given list.
 //
 // **Time Complexity**
 //
+// ```
 // | Scenario     | Big-O  |
 // |:-------------|:-------|
 // | Average Case | O(n^2) |
 // | Best Case    | O(n)   |
 // | Worst Case   | O(n^2) |
+// ```
 //
-// [insertion sort algorithm]: https://en.wikipedia.org/wiki/Insertion_sort
+// [0]: https://en.wikipedia.org/wiki/Insertion_sort
 func Insertion(list []int) []int {
 	// Copy the list to ensure there are no side effects on the given list
 	cpy := make([]int, len(list))
@@ -28,16 +30,20 @@ func Insertion(list []int) []int {
 	return cpy
 }
 
-// Sort the given list using the [insertion sort algorithm]. This function alters the given list.
+// InPlaceInsertion sorts the given list using the [Insertion Sort algorithm][0]. This function
+// alters the given list.
+//
 // **Time Complexity**
 //
+// ```
 // | Scenario     | Big-O  |
 // |:-------------|:-------|
 // | Average Case | O(n^2) |
 // | Best Case    | O(n)   |
 // | Worst Case   | O(n^2) |
+// ```
 //
-// [insertion sort algorithm]: https://en.wikipedia.org/wiki/Insertion_sort
+// [0]: https://en.wikipedia.org/wiki/Insertion_sort
 func InPlaceInsertion(list []int) []int {
 	for i := 1; i < len(list); i++ {
 		j := i

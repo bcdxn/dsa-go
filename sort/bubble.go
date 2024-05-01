@@ -1,17 +1,19 @@
 package sort
 
-// Return a sorted copy of the list using the [Bubble Sort alogrithm]. This function does not alter
-// the given list
+// Bubble returns a sorted copy of the list using the [Bubble Sort alogrithm][0]. This function does
+// not alter the given list.
 //
 // **Time Complexity**
 //
+// ```
 // | Scenario     | Big-O  |
 // |:-------------|:-------|
 // | Average Case | O(n^2) |
 // | Best Case    | O(n)   |
 // | Worst Case   | O(n^2) |
+// ```
 //
-// [Bubble Sort alogrithm]: https://en.wikipedia.org/wiki/Bubble_sort
+// [0]: https://en.wikipedia.org/wiki/Bubble_sort
 func Bubble(list []int) []int {
 	cpy := make([]int, len(list))
 	copy(cpy, list)
@@ -33,6 +35,20 @@ func Bubble(list []int) []int {
 	return cpy
 }
 
+// Bubble sorts the given list using the [Bubble Sort alogrithm][0]. This function alters the given
+// list.
+//
+// **Time Complexity**
+//
+// ```
+// | Scenario     | Big-O  |
+// |:-------------|:-------|
+// | Average Case | O(n^2) |
+// | Best Case    | O(n)   |
+// | Worst Case   | O(n^2) |
+// ```
+//
+// [0]: https://en.wikipedia.org/wiki/Bubble_sort
 func InPlaceBubble(list []int) []int {
 	swap := true
 
