@@ -112,3 +112,7 @@ func TestBubbleSort(t *testing.T) {
 func TestInPlaceBubbleSort(t *testing.T) {
 	runTests(t, sort.InPlaceBubble, true)
 }
+
+func TestMergeSort(t *testing.T) {
+	runTests(t, sort.Merge, false)
+}
