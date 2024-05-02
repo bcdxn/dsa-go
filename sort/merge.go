@@ -25,27 +25,6 @@ func Merge(list []int) []int {
 	return mergeHelper(cpy)
 }
 
-// InPlaceMerge sorts the given list using the [Merge Sort algorithm][0]. This function alters the
-// given list.
-//
-// **Time Complexity**
-//
-// ```
-// | Scenario     | Big-O  |
-// |:-------------|:-------|
-// | Average Case | O(n*log(n))  |
-// | Best Case    | O(n*log(n))  |
-// | Worst Case   | O(n*log(n))  |
-// ```
-//
-// Additional Notes:
-// - Space complexity - O(n)
-//
-// [0]: https://en.wikipedia.org/wiki/Merge_sort
-func InPlaceMerge(list []int) []int {
-	return mergeHelper(list)
-}
-
 func mergeHelper(list []int) []int {
 	// Base Case
 	// The list has size of 1 (or is empty) it is emplicitly sorted
