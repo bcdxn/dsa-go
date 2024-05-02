@@ -84,14 +84,18 @@ func runTests(t *testing.T, sortFunction func([]int) []int, inPlace bool) {
 
 			if inPlace {
 				isSorted = slices.Equal(test.input, test.expected)
+				if !slices.Equal(test.input, test.expected) {
+					t.Errorf("test '%s' - FAILED (due to missing side effects)\n", test.description)
+				}
 			} else {
 				isSorted = slices.Equal(actual, test.expected)
+				if test.willChange && slices.Equal(test.input, test.expected) {
+					t.Errorf("test '%s' - FAILED (due to unwanted side effects)\n", test.description)
+				}
 			}
 
 			if !isSorted {
 				t.Errorf("test '%s' - FAILED (due to incorrect sort order)\n", test.description)
-			} else if !inPlace && test.willChange && slices.Equal(test.input, actual) {
-				t.Errorf("test '%s' - FAILED (due to unwanted side effects)\n", test.description)
 			}
 		})
 	}
