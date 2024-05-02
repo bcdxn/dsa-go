@@ -9,14 +9,14 @@ import (
 
 func TestLinkedListInitializer(t *testing.T) {
 	t.Run("Initializer should create an empty list", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		assert.Equal(t, 0, ll.Size())
 	})
 }
 
 func TestLinkedListAdd(t *testing.T) {
 	t.Run("Adding to an empty list", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		assert.Equal(t, 0, ll.Size())
 		ll.Add(10)
 		assert.Equal(t, 1, ll.Size(), "Adding 1 element should increase the size by 1")
@@ -27,7 +27,7 @@ func TestLinkedListAdd(t *testing.T) {
 	})
 
 	t.Run("Adding to a non-empty list", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		assert.Equal(t, 0, ll.Size())
 		ll.Add(10)
 		ll.Add(5)
@@ -37,14 +37,14 @@ func TestLinkedListAdd(t *testing.T) {
 	})
 
 	t.Run("Should be able to traverse to all of the added nodes", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		elems := [4]int{10, 5, 8, 19}
 
 		for _, elem := range elems {
 			ll.Add(elem)
 		}
 
-		var node *ds.LinkedListNode = ll.Head
+		node := ll.Head
 		i := len(elems) - 1
 
 		for node != nil {
@@ -57,14 +57,14 @@ func TestLinkedListAdd(t *testing.T) {
 
 func TestLinkedListRemove(t *testing.T) {
 	t.Run("Removing from an empty list", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		_, err := ll.Remove(10)
 
 		assert.NotNil(t, err, "An error should be returned if the value is not found in the list")
 	})
 
 	t.Run("Removing an element that does not exist in the list", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		elems := [4]int{10, 5, 8, 19}
 
 		for _, elem := range elems {
@@ -76,7 +76,7 @@ func TestLinkedListRemove(t *testing.T) {
 	})
 
 	t.Run("Removing from a list of length 1", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		ll.Add(10)
 		elem, err := ll.Remove(10)
 
@@ -90,7 +90,7 @@ func TestLinkedListRemove(t *testing.T) {
 	})
 
 	t.Run("Removing an element from the middle of the list", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		elems := [5]int{10, 5, 8, 19, 16}
 		expectedList := [4]int{16, 19, 5, 10}
 
@@ -102,7 +102,7 @@ func TestLinkedListRemove(t *testing.T) {
 		ll.Remove(8)
 		assert.Equal(t, ll.Size(), 4, "Size should be decremented")
 
-		var node *ds.LinkedListNode = ll.Head
+		node := ll.Head
 		i := 0
 
 		for node != nil {
@@ -115,7 +115,7 @@ func TestLinkedListRemove(t *testing.T) {
 
 func TestLinkedListReverse(t *testing.T) {
 	t.Run("testing the test", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		elems := [5]int{10, 5, 8, 19, 16}
 
 		for _, elem := range elems {
@@ -124,7 +124,7 @@ func TestLinkedListReverse(t *testing.T) {
 
 		ll.Reverse()
 
-		var node *ds.LinkedListNode = ll.Head
+		node := ll.Head
 		i := 0
 
 		for node != nil {
@@ -139,7 +139,7 @@ func TestLinkedListReverse(t *testing.T) {
 
 func TestLinkedListReverseRecursive(t *testing.T) {
 	t.Run("testing the test", func(t *testing.T) {
-		ll := ds.NewLinkedList()
+		ll := ds.NewLinkedList[int]()
 		elems := [5]int{10, 5, 8, 19, 16}
 
 		for _, elem := range elems {
@@ -148,7 +148,7 @@ func TestLinkedListReverseRecursive(t *testing.T) {
 
 		ll.ReverseRecursive()
 
-		var node *ds.LinkedListNode = ll.Head
+		node := ll.Head
 		i := 0
 
 		for node != nil {

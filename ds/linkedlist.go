@@ -2,37 +2,37 @@ package ds
 
 import "errors"
 
-type LinkedListNode struct {
-	Elem int
-	Next *LinkedListNode
+type LinkedListNode[T comparable] struct {
+	Elem T
+	Next *LinkedListNode[T]
 }
 
-func newLinkedListNode(elem int) *LinkedListNode {
-	return &LinkedListNode{
+func newLinkedListNode[T comparable](elem T) *LinkedListNode[T] {
+	return &LinkedListNode[T]{
 		Elem: elem,
 		Next: nil,
 	}
 }
 
-type LinkedList struct {
-	Head *LinkedListNode
+type LinkedList[T comparable] struct {
+	Head *LinkedListNode[T]
 	size int
 }
 
-func NewLinkedList() *LinkedList {
-	return &LinkedList{
+func NewLinkedList[T comparable]() *LinkedList[T] {
+	return &LinkedList[T]{
 		Head: nil,
 		size: 0,
 	}
 }
 
 // Size returns the number of elements in the list.
-func (l LinkedList) Size() int {
+func (l LinkedList[T]) Size() int {
 	return l.size
 }
 
 // Add adds an item to the head of the list.
-func (l *LinkedList) Add(elem int) {
+func (l *LinkedList[T]) Add(elem T) {
 	node := newLinkedListNode(elem)
 	node.Next = l.Head
 	l.Head = node
@@ -40,9 +40,9 @@ func (l *LinkedList) Add(elem int) {
 }
 
 // Remove removes the first occurence of the specified element from the list.
-func (l *LinkedList) Remove(elem int) (int, error) {
+func (l *LinkedList[T]) Remove(elem T) (T, error) {
 	node := l.Head
-	var prevNode *LinkedListNode = nil
+	var prevNode *LinkedListNode[T] = nil
 
 	for node != nil {
 		if node.Elem == elem {
@@ -65,17 +65,18 @@ func (l *LinkedList) Remove(elem int) (int, error) {
 		node = node.Next
 	}
 
-	return 0, errors.New("the specified element does not exist in the list")
+	var e T
+	return e, errors.New("the specified element does not exist in the list")
 }
 
 // Reverse reverses the order of the linked list
-func (l *LinkedList) Reverse() {
+func (l *LinkedList[T]) Reverse() {
 	node := l.Head
-	var prevNode *LinkedListNode = nil
+	var prevNode *LinkedListNode[T] = nil
 
 	for node != nil {
 		// store next before reconfiguring pointers
-		var tmp *LinkedListNode = node.Next
+		var tmp *LinkedListNode[T] = node.Next
 		// reconfigure pointers
 		node.Next = prevNode
 		l.Head = node
@@ -85,11 +86,11 @@ func (l *LinkedList) Reverse() {
 	}
 }
 
-func (l *LinkedList) ReverseRecursive() {
+func (l *LinkedList[T]) ReverseRecursive() {
 	reverseRecursive(l, l.Head)
 }
 
-func reverseRecursive(l *LinkedList, node *LinkedListNode) {
+func reverseRecursive[T comparable](l *LinkedList[T], node *LinkedListNode[T]) {
 	// base case: A list of length 1 is implicitly reversed
 	if node.Next == nil {
 		l.Head = node
