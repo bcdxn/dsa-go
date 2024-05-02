@@ -1,25 +1,29 @@
 package ds
 
-import "errors"
+import (
+	"errors"
 
-type LinkedListNode[T comparable] struct {
+	"golang.org/x/exp/constraints"
+)
+
+type LinkedListNode[T constraints.Ordered] struct {
 	Elem T
 	Next *LinkedListNode[T]
 }
 
-func newLinkedListNode[T comparable](elem T) *LinkedListNode[T] {
+func newLinkedListNode[T constraints.Ordered](elem T) *LinkedListNode[T] {
 	return &LinkedListNode[T]{
 		Elem: elem,
 		Next: nil,
 	}
 }
 
-type LinkedList[T comparable] struct {
+type LinkedList[T constraints.Ordered] struct {
 	Head *LinkedListNode[T]
 	size int
 }
 
-func NewLinkedList[T comparable]() *LinkedList[T] {
+func NewLinkedList[T constraints.Ordered]() *LinkedList[T] {
 	return &LinkedList[T]{
 		Head: nil,
 		size: 0,
@@ -90,7 +94,7 @@ func (l *LinkedList[T]) ReverseRecursive() {
 	reverseRecursive(l, l.Head)
 }
 
-func reverseRecursive[T comparable](l *LinkedList[T], node *LinkedListNode[T]) {
+func reverseRecursive[T constraints.Ordered](l *LinkedList[T], node *LinkedListNode[T]) {
 	// base case: A list of length 1 is implicitly reversed
 	if node.Next == nil {
 		l.Head = node
