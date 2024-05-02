@@ -1,6 +1,10 @@
 package sort
 
-import "math/rand"
+import (
+	"math/rand"
+
+	"golang.org/x/exp/constraints"
+)
 
 // Merge returns a sorted copy of the given list using the [Merge Sort algorithm][0]. This
 // function does not alter the given list.
@@ -19,9 +23,9 @@ import "math/rand"
 // - Space complexity - O(log(n))
 //
 // [0]: https://en.wikipedia.org/wiki/Quicksort
-func Quick(list []int) []int {
+func Quick[T constraints.Ordered](list []T) []T {
 	// Copy the list to ensure there are no side effects on the given list
-	cpy := make([]int, len(list))
+	cpy := make([]T, len(list))
 	copy(cpy, list)
 
 	quickHelper(cpy, 0, len(cpy)-1)
@@ -32,7 +36,7 @@ func Quick(list []int) []int {
 // parition is a private helper function to create a semi-sorted sort list with relation to a rand
 // pivot value. All values to the left of the pivot are less than the pivot and all values to the
 // right of the pivot are greater than or equal to the pivot.
-func partition(list []int, low int, high int) int {
+func partition[T constraints.Ordered](list []T, low int, high int) int {
 	// Pick a random pivot
 	pivotIndex := rand.Intn(high-low+1) + low
 	pivotValue := list[pivotIndex]
@@ -59,7 +63,7 @@ func partition(list []int, low int, high int) int {
 }
 
 // quickHelper is a recursive helper function to implement Quick Sort.
-func quickHelper(list []int, low int, high int) {
+func quickHelper[T constraints.Ordered](list []T, low int, high int) {
 	// base case
 	if high <= low {
 		return

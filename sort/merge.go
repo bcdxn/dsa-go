@@ -1,5 +1,7 @@
 package sort
 
+import "golang.org/x/exp/constraints"
+
 // Merge returns a sorted copy of the given list using the [Merge Sort algorithm][0]. This
 // function does not alter the given list.
 //
@@ -17,15 +19,15 @@ package sort
 // - Space complexity - O(n)
 //
 // [0]: https://en.wikipedia.org/wiki/Merge_sort
-func Merge(list []int) []int {
+func Merge[T constraints.Ordered](list []T) []T {
 	// Copy the list to ensure there are no side effects on the given list
-	cpy := make([]int, len(list))
+	cpy := make([]T, len(list))
 	copy(cpy, list)
 
 	return mergeHelper(cpy)
 }
 
-func mergeHelper(list []int) []int {
+func mergeHelper[T constraints.Ordered](list []T) []T {
 	// Base Case
 	// The list has size of 1 (or is empty) it is emplicitly sorted
 	if len(list) < 2 {
@@ -42,8 +44,8 @@ func mergeHelper(list []int) []int {
 	return mergeSortedLists(sortedLeft, sortedRight)
 }
 
-func mergeSortedLists(leftList []int, rightList []int) []int {
-	sorted := make([]int, len(leftList)+len(rightList))
+func mergeSortedLists[T constraints.Ordered](leftList []T, rightList []T) []T {
+	sorted := make([]T, len(leftList)+len(rightList))
 
 	i := 0
 	leftIndex := 0

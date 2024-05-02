@@ -1,5 +1,7 @@
 package sort
 
+import "golang.org/x/exp/constraints"
+
 // Bubble returns a sorted copy of the list using the [Bubble Sort alogrithm][0]. This function does
 // not alter the given list.
 //
@@ -14,8 +16,8 @@ package sort
 // ```
 //
 // [0]: https://en.wikipedia.org/wiki/Bubble_sort
-func Bubble(list []int) []int {
-	cpy := make([]int, len(list))
+func Bubble[T constraints.Ordered](list []T) []T {
+	cpy := make([]T, len(list))
 	copy(cpy, list)
 
 	swap := true
@@ -49,7 +51,7 @@ func Bubble(list []int) []int {
 // ```
 //
 // [0]: https://en.wikipedia.org/wiki/Bubble_sort
-func InPlaceBubble(list []int) []int {
+func InPlaceBubble[T constraints.Ordered](list []T) []T {
 	swap := true
 
 	for swap {
