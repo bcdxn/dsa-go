@@ -53,6 +53,8 @@ go get -u github.com/bcdxn/dsa-go
 ## Tests
 
 ```bash
-go test -v ./...
+go test -v -coverprofile cover.out ./...
+go tool cover -html cover.out -o cover.html
+open cover.html
 ```
 
