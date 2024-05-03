@@ -4,7 +4,7 @@
 
 - [x] Linked List
 - [x] Doubly Linked List
-- [ ] Queue (FIFO)
+- [x] Queue (FIFO)
 - [ ] Stack (LIFO)
 - [ ] Hash Map
 - [ ] Hash Map + Collision Handling

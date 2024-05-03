@@ -80,6 +80,60 @@ func (l *List[T]) AddTail(elem T) {
 	}
 }
 
+// RemoveHead removes the first element in the list
+func (l *List[T]) RemoveHead() (T, error) {
+	var elem T
+	node := l.Head
+	// Ensure we're not removing from an empty list
+	if node == nil {
+		return elem, errors.New("attempted to remove from an empty list")
+	}
+	// store the elem that is being removed so we can return it
+	elem = node.Elem
+	if node.Next == nil {
+		// We're dealing with a list of length 1
+		l.Head = nil
+		l.Tail = nil
+	} else {
+		// We're dealing with a list of length > 1
+		// update list pointers
+		node.Next.Prev = nil
+		l.Head = node.Next
+		node.Next = nil // clear to help GC
+	}
+
+	l.len--
+
+	return elem, nil
+}
+
+// RemoveTail removes the tail element in the list
+func (l *List[T]) RemoveTail() (T, error) {
+	var elem T
+	node := l.Tail
+	// Ensure we're not removing from an empty list
+	if node == nil {
+		return elem, errors.New("attempted to remove from an empty list")
+	}
+	// store the elem that is being removed so we can return it
+	elem = node.Elem
+	if node.Prev == nil {
+		// We're dealing with a list of length 1
+		l.Head = nil
+		l.Tail = nil
+	} else {
+		// We're dealing with a list of length > 1
+		// update list pointers
+		node.Prev.Next = nil
+		l.Tail = node.Prev
+		node.Prev = nil // clear to help GC
+	}
+
+	l.len--
+
+	return elem, nil
+}
+
 // Remove finds the specified element and removes it from the list; if the element is not found an
 // error is returned indicating as such.
 func (l *List[T]) Remove(elem T) (T, error) {
