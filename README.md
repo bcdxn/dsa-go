@@ -25,7 +25,7 @@
 - [x] Bubble Sort
 - [x] Insertion Sort
 - [x] Merge Sort
-- [ ] Quick Sort
+- [x] Quick Sort
 - [ ] Shell Sort
 
 ### String Matching
