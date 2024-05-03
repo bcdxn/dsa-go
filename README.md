@@ -2,7 +2,8 @@
 
 ## Data Structures
 
-- [ ] Linked List
+- [x] Linked List
+- [x] Doubly Linked List
 - [ ] Queue (FIFO)
 - [ ] Stack (LIFO)
 - [ ] Hash Map
