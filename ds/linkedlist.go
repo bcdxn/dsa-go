@@ -20,19 +20,19 @@ func newLinkedListNode[T constraints.Ordered](elem T) *LinkedListNode[T] {
 
 type LinkedList[T constraints.Ordered] struct {
 	Head *LinkedListNode[T]
-	size int
+	len  int
 }
 
 func NewLinkedList[T constraints.Ordered]() *LinkedList[T] {
 	return &LinkedList[T]{
 		Head: nil,
-		size: 0,
+		len:  0,
 	}
 }
 
-// Size returns the number of elements in the list.
-func (l LinkedList[T]) Size() int {
-	return l.size
+// Len returns the number of elements in the list.
+func (l LinkedList[T]) Len() int {
+	return l.len
 }
 
 // Add adds an item to the head of the list.
@@ -40,7 +40,7 @@ func (l *LinkedList[T]) Add(elem T) {
 	node := newLinkedListNode(elem)
 	node.Next = l.Head
 	l.Head = node
-	l.size++
+	l.len++
 }
 
 // Remove removes the first occurence of the specified element from the list.
@@ -59,8 +59,8 @@ func (l *LinkedList[T]) Remove(elem T) (T, error) {
 				// next node to effectively remove the current node from the list
 				prevNode.Next = node.Next
 			}
-			// decrement the size since we remoed a node
-			l.size--
+			// decrement the len since we remoed a node
+			l.len--
 			// return the deleted element
 			return elem, nil
 		}

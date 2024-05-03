@@ -25,7 +25,7 @@ func newListNode[T constraints.Ordered](elem T) *ListNode[T] {
 type List[T constraints.Ordered] struct {
 	Head *ListNode[T]
 	Tail *ListNode[T]
-	size int
+	len  int
 }
 
 // NewList creates and returns an empty doubly linked list.
@@ -33,20 +33,20 @@ func NewList[T constraints.Ordered]() *List[T] {
 	return &List[T]{
 		Head: nil,
 		Tail: nil,
-		size: 0,
+		len:  0,
 	}
 }
 
-// Size returns the length of the list.
-func (l List[T]) Size() int {
-	return l.size
+// Len returns the length of the list.
+func (l List[T]) Len() int {
+	return l.len
 }
 
 // AddTail adds an element to the Head of the list.
 func (l *List[T]) AddHead(elem T) {
 	node := newListNode(elem)
 
-	if l.Size() < 1 {
+	if l.Len() < 1 {
 		l.Head = node
 	} else {
 		node.Next = l.Head
@@ -54,9 +54,9 @@ func (l *List[T]) AddHead(elem T) {
 		l.Head = node
 	}
 
-	l.size++
+	l.len++
 
-	if l.Size() < 2 {
+	if l.Len() < 2 {
 		l.Tail = l.Head
 	}
 }
@@ -65,7 +65,7 @@ func (l *List[T]) AddHead(elem T) {
 func (l *List[T]) AddTail(elem T) {
 	node := newListNode(elem)
 
-	if l.Size() < 1 {
+	if l.Len() < 1 {
 		l.Tail = node
 	} else {
 		node.Prev = l.Tail
@@ -73,9 +73,9 @@ func (l *List[T]) AddTail(elem T) {
 		l.Tail = node
 	}
 
-	l.size++
+	l.len++
 
-	if l.Size() < 2 {
+	if l.Len() < 2 {
 		l.Head = l.Tail
 	}
 }
@@ -114,8 +114,8 @@ func (l *List[T]) Remove(elem T) (T, error) {
 				node.Next = nil
 				node.Prev = nil
 			}
-			// decrement size
-			l.size--
+			// decrement len
+			l.len--
 
 			return retElem, nil
 		}

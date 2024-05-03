@@ -10,30 +10,30 @@ import (
 func TestLinkedListInitializer(t *testing.T) {
 	t.Run("Initializer should create an empty list", func(t *testing.T) {
 		ll := ds.NewLinkedList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 	})
 }
 
 func TestLinkedListAdd(t *testing.T) {
 	t.Run("Adding to an empty list", func(t *testing.T) {
 		ll := ds.NewLinkedList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		ll.Add(10)
-		assert.Equal(t, 1, ll.Size(), "Adding 1 element should increase the size by 1")
+		assert.Equal(t, 1, ll.Len(), "Adding 1 element should increase the size by 1")
 		ll.Add(10)
 		ll.Add(10)
 		ll.Add(10)
-		assert.Equal(t, 4, ll.Size(), "Adding 3 element should increase the size by 3")
+		assert.Equal(t, 4, ll.Len(), "Adding 3 element should increase the size by 3")
 	})
 
 	t.Run("Adding to a non-empty list", func(t *testing.T) {
 		ll := ds.NewLinkedList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		ll.Add(10)
 		ll.Add(5)
 		ll.Add(8)
 		ll.Add(19)
-		assert.Equal(t, 4, ll.Size(), "Adding 4 element should increase the size by 4")
+		assert.Equal(t, 4, ll.Len(), "Adding 4 element should increase the size by 4")
 	})
 
 	t.Run("Should be able to traverse to all of the added nodes", func(t *testing.T) {
@@ -85,7 +85,7 @@ func TestLinkedListRemove(t *testing.T) {
 		}
 
 		assert.Equal(t, elem, 10, "Should return the removed element")
-		assert.Equal(t, ll.Size(), 0, "Size should be decremented")
+		assert.Equal(t, ll.Len(), 0, "Len should be decremented")
 		assert.Nil(t, ll.Head, "The list should now be empty")
 	})
 
@@ -98,9 +98,9 @@ func TestLinkedListRemove(t *testing.T) {
 			ll.Add(elem)
 		}
 
-		assert.Equal(t, ll.Size(), 5)
+		assert.Equal(t, ll.Len(), 5)
 		ll.Remove(8)
-		assert.Equal(t, ll.Size(), 4, "Size should be decremented")
+		assert.Equal(t, ll.Len(), 4, "Len should be decremented")
 
 		node := ll.Head
 		i := 0

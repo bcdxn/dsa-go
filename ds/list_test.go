@@ -10,7 +10,7 @@ import (
 func TestListInitializer(t *testing.T) {
 	t.Run("Initializer should create an empty list", func(t *testing.T) {
 		ll := ds.NewList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		assert.Nil(t, ll.Head, "empty list Head should be nil")
 		assert.Nil(t, ll.Tail, "empty list Tail should be nil")
 	})
@@ -19,23 +19,23 @@ func TestListInitializer(t *testing.T) {
 func TestListAddHead(t *testing.T) {
 	t.Run("Adding to an empty list", func(t *testing.T) {
 		ll := ds.NewList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		ll.AddHead(10)
-		assert.Equal(t, 1, ll.Size(), "Adding 1 element should increase the size by 1")
+		assert.Equal(t, 1, ll.Len(), "Adding 1 element should increase the size by 1")
 		ll.AddHead(10)
 		ll.AddHead(10)
 		ll.AddHead(10)
-		assert.Equal(t, 4, ll.Size(), "Adding 3 element should increase the size by 3")
+		assert.Equal(t, 4, ll.Len(), "Adding 3 element should increase the size by 3")
 	})
 
 	t.Run("Adding to a non-empty list", func(t *testing.T) {
 		ll := ds.NewList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		ll.AddHead(10)
 		ll.AddHead(5)
 		ll.AddHead(8)
 		ll.AddHead(19)
-		assert.Equal(t, 4, ll.Size(), "Adding 4 element should increase the size by 4")
+		assert.Equal(t, 4, ll.Len(), "Adding 4 element should increase the size by 4")
 	})
 
 	t.Run("Should be able to traverse to all of the added nodes from head", func(t *testing.T) {
@@ -78,23 +78,23 @@ func TestListAddHead(t *testing.T) {
 func TestListAddTail(t *testing.T) {
 	t.Run("Adding to an empty list", func(t *testing.T) {
 		ll := ds.NewList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		ll.AddTail(10)
-		assert.Equal(t, 1, ll.Size(), "Adding 1 element should increase the size by 1")
+		assert.Equal(t, 1, ll.Len(), "Adding 1 element should increase the size by 1")
 		ll.AddTail(10)
 		ll.AddTail(10)
 		ll.AddTail(10)
-		assert.Equal(t, 4, ll.Size(), "Adding 3 element should increase the size by 3")
+		assert.Equal(t, 4, ll.Len(), "Adding 3 element should increase the size by 3")
 	})
 
 	t.Run("Adding to a non-empty list", func(t *testing.T) {
 		ll := ds.NewList[int]()
-		assert.Equal(t, 0, ll.Size())
+		assert.Equal(t, 0, ll.Len())
 		ll.AddTail(10)
 		ll.AddTail(5)
 		ll.AddTail(8)
 		ll.AddTail(19)
-		assert.Equal(t, 4, ll.Size(), "Adding 4 element should increase the size by 4")
+		assert.Equal(t, 4, ll.Len(), "Adding 4 element should increase the size by 4")
 	})
 
 	t.Run("Should be able to traverse to all of the added nodes from head", func(t *testing.T) {
@@ -164,7 +164,7 @@ func TestListRemove(t *testing.T) {
 		}
 
 		assert.Equal(t, elem, 10, "Should return the removed element")
-		assert.Equal(t, ll.Size(), 0, "Size should be decremented")
+		assert.Equal(t, ll.Len(), 0, "Len should be decremented")
 		assert.Nil(t, ll.Head, "The list head should be nil")
 		assert.Nil(t, ll.Tail, "The list tail should be nil")
 	})
@@ -178,9 +178,9 @@ func TestListRemove(t *testing.T) {
 			ll.AddHead(elem)
 		}
 
-		assert.Equal(t, ll.Size(), 5)
+		assert.Equal(t, ll.Len(), 5)
 		ll.Remove(8)
-		assert.Equal(t, ll.Size(), 4, "Size should be decremented")
+		assert.Equal(t, ll.Len(), 4, "Len should be decremented")
 
 		node := ll.Head
 		i := 0
@@ -208,9 +208,9 @@ func TestListRemove(t *testing.T) {
 			ll.AddHead(elem)
 		}
 
-		assert.Equal(t, ll.Size(), 5)
+		assert.Equal(t, ll.Len(), 5)
 		ll.Remove(16)
-		assert.Equal(t, ll.Size(), 4, "Size should be decremented")
+		assert.Equal(t, ll.Len(), 4, "Len should be decremented")
 
 		node := ll.Head
 		i := 0
@@ -238,9 +238,9 @@ func TestListRemove(t *testing.T) {
 			ll.AddHead(elem)
 		}
 
-		assert.Equal(t, ll.Size(), 5)
+		assert.Equal(t, ll.Len(), 5)
 		ll.Remove(10)
-		assert.Equal(t, ll.Size(), 4, "Size should be decremented")
+		assert.Equal(t, ll.Len(), 4, "Len should be decremented")
 
 		node := ll.Head
 		i := 0
