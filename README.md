@@ -6,9 +6,8 @@
 - [x] Doubly Linked List
 - [x] Queue (FIFO)
 - [x] Stack (LIFO)
-- [ ] Hash Map
-- [ ] Hash Map + Collision Handling
-- [ ] BST
+- [x] Hash Table + Collision Handling
+- [x] BST
 - [ ] Heap
 - [ ] AVL
 - [ ] Graph
@@ -57,4 +56,3 @@ go test -v -coverprofile cover.out ./...
 go tool cover -html cover.out -o cover.html
 open cover.html
 ```
-
