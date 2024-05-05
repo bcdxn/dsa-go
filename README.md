@@ -26,11 +26,21 @@
 - [x] Merge Sort
 - [x] Quick Sort
 - [ ] Shell Sort
+- [ ] Heap Sort
 
 ### String Matching
 
+### Tree Traversals
+
+- [ ] Pre-order
+- [ ] In-order
+- [ ] Post-order
+- [ ] Level-Order
+
 ### Graph Traversals
 
+- [ ] Tree Height
+- [ ] Detecting Cycles
 - [ ] Breadth First
 - [ ] Depth First
 - [ ] Dijkstra's algorithm (shortest path)

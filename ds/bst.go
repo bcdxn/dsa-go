@@ -38,17 +38,18 @@ func (t BST[T]) Size() int {
 	return t.size
 }
 
-// FindMin returns the node with the smallest element value.
-func (t BST[T]) FindMin(root *TreeNode[T]) *TreeNode[T] {
-	if root == nil {
-		return root
+// FindMin returns the node with the smallest element value. If the tree is empty an error is
+// returned.
+func (t BST[T]) FindMin() (T, error) {
+	var elem T
+
+	if t.Root == nil {
+		return elem, errors.New("tree is empty")
 	}
 
-	if root.Left == nil {
-		return root
-	}
+	smallestNode := t.findMin(t.Root)
 
-	return t.FindMin(root.Left)
+	return smallestNode.Elem, nil
 }
 
 // Insert adds a node to the tree and maintains the BST properties.
@@ -65,6 +66,9 @@ func (t *BST[T]) Remove(elem T) error {
 
 	return err
 }
+
+/* Private helper functions
+------------------------------------------------------------------------------------------------- */
 
 // insert is a recursive helper function to insert an element into the tree.
 func (t *BST[T]) insert(root *TreeNode[T], elem T) *TreeNode[T] {
@@ -102,18 +106,15 @@ func (t *BST[T]) remove(root *TreeNode[T], elem T) (*TreeNode[T], error) {
 		root.Right, err = t.remove(root.Right, elem)
 	} else {
 		// We've found the node to remove
-		if root.Left == nil && root.Right == nil {
-			// We're at a leave node and can safely remove it without any pointer reconfiguration
-			node = nil
-		} else if root.Left == nil {
-			// Our node has only a single child which can be promoted
+		if root.Left == nil {
+			// Our node has, at most, only a single child which can be promoted
 			node = root.Right
 		} else if root.Right == nil {
-			// Our node has only a single child which can be promoted
+			// Our node has, at most, only a single child which can be promoted
 			node = root.Left
 		} else {
 			// Our node has 2 children; we should replace it with the smallest in the right subtree
-			node = t.FindMin(root.Right)
+			node = t.findMin(root.Right)
 			// Remove the node from the right subtree since we're going to add it at the root of the
 			// current subtree
 			root.Right, err = t.remove(root.Right, node.Elem)
@@ -128,4 +129,16 @@ func (t *BST[T]) remove(root *TreeNode[T], elem T) (*TreeNode[T], error) {
 	}
 
 	return root, err
+}
+
+func (t BST[T]) findMin(root *TreeNode[T]) *TreeNode[T] {
+	if root == nil {
+		return root
+	}
+
+	if root.Left == nil {
+		return root
+	}
+
+	return t.findMin(root.Left)
 }

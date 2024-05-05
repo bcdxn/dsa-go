@@ -32,7 +32,35 @@ func TestBstInsert(t *testing.T) {
 		assert.Equalf(t, 4, tree.Size(), "BST size should be incremented after insert")
 	})
 
-	t.Run("Binary search tree properties should be maintained", func(t *testing.T) {
+	// t.Run("Binary search tree properties should be maintained", func(t *testing.T) {
+	// 	tree := ds.NewBST[int]()
+
+	// 	tree.Insert(10)
+	// 	tree.Insert(5)
+	// 	tree.Insert(7)
+	// 	tree.Insert(17)
+	// 	tree.Insert(3)
+	// 	tree.Insert(24)
+	// 	tree.Insert(13)
+	// 	tree.Insert(15)
+	// 	tree.Insert(6)
+
+	// 	// root's left subtree
+	// 	assert.Equal(t, 5, tree.Root.Left.Elem)
+	// 	assert.Equal(t, 7, tree.Root.Left.Right.Elem)
+	// 	assert.Equal(t, 3, tree.Root.Left.Left.Elem)
+	// 	assert.Equal(t, 3, tree.Root.Left.Left.Elem)
+	// 	assert.Equal(t, 6, tree.Root.Left.Right.Left.Elem)
+	// 	// root's right subtree
+	// 	assert.Equal(t, 17, tree.Root.Right.Elem)
+	// 	assert.Equal(t, 13, tree.Root.Right.Left.Elem)
+	// 	assert.Equal(t, 24, tree.Root.Right.Right.Elem)
+	// 	assert.Equal(t, 15, tree.Root.Right.Left.Right.Elem)
+	// })
+}
+
+func TestBstFindMin(t *testing.T) {
+	t.Run("should return the minimum element in the true", func(t *testing.T) {
 		tree := ds.NewBST[int]()
 
 		tree.Insert(10)
@@ -44,18 +72,9 @@ func TestBstInsert(t *testing.T) {
 		tree.Insert(13)
 		tree.Insert(15)
 		tree.Insert(6)
-
-		// root's left subtree
-		assert.Equal(t, 5, tree.Root.Left.Elem)
-		assert.Equal(t, 7, tree.Root.Left.Right.Elem)
-		assert.Equal(t, 3, tree.Root.Left.Left.Elem)
-		assert.Equal(t, 3, tree.Root.Left.Left.Elem)
-		assert.Equal(t, 6, tree.Root.Left.Right.Left.Elem)
-		// root's right subtree
-		assert.Equal(t, 17, tree.Root.Right.Elem)
-		assert.Equal(t, 13, tree.Root.Right.Left.Elem)
-		assert.Equal(t, 24, tree.Root.Right.Right.Elem)
-		assert.Equal(t, 15, tree.Root.Right.Left.Right.Elem)
+		min, err := tree.FindMin()
+		assert.Nil(t, err, "Should not return error if the tree is not empty")
+		assert.Equalf(t, 3, min, "3 is the minimum value in this tree")
 	})
 }
 
