@@ -76,12 +76,24 @@ func (t AVLTree[T]) Contains(elem T) bool {
 	return node != nil
 }
 
+// Insert adds an element into the tree and maintains the binary search and AVL balance properties
 func (t *AVLTree[T]) Insert(elem T) error {
 	if node, err := t.insert(t.Root, elem); err != nil {
 		return err
 	} else {
 		t.Root = node
 		t.size++
+		return nil
+	}
+}
+
+// Remove removes an element from the tree and maintains the binary search and AVL balance
+// properties
+func (t *AVLTree[T]) Remove(elem T) error {
+	if node, err := t.remove(t.Root, elem); err != nil {
+		return err
+	} else {
+		t.Root = node
 		return nil
 	}
 }
@@ -125,7 +137,71 @@ func (t *AVLTree[T]) insert(root *AVLTreeNode[T], elem T) (*AVLTreeNode[T], erro
 	} else {
 		return nil, errors.New("cannot insert a duplicate element")
 	}
+	// Calculate current height of subtree before balancing
+	root.height = root.GetHeight()
+	// Ensure tree is still balanced
+	root = t.balance(root)
+	// Set the height after balance
+	root.height = root.GetHeight()
 
+	return root, nil
+}
+
+func (t *AVLTree[T]) remove(root *AVLTreeNode[T], elem T) (*AVLTreeNode[T], error) {
+	if root == nil {
+		return nil, errors.New("element not found in the tree")
+	}
+
+	if elem < root.Elem {
+		if node, err := t.remove(root.Left, elem); err != nil {
+			return root, err
+		} else {
+			root.Left = node
+			root.height = root.GetHeight()
+		}
+	} else if elem > root.Elem {
+		if node, err := t.remove(root.Right, elem); err != nil {
+			return root, err
+		} else {
+			root.Right = node
+			root.height = root.GetHeight()
+		}
+	} else {
+		// we've found the node to be removed
+		if root.Left == nil {
+			root = root.Right
+		} else if root.Right == nil {
+			root = root.Left
+		} else {
+			// Promote the minimum child in the right subtree
+			promotionNode := t.findMin(root.Right)
+			if node, err := t.remove(root.Right, promotionNode.Elem); err != nil {
+				return root, err
+			} else {
+				promotionNode.Left = root.Left
+				promotionNode.Right = node
+				root = promotionNode
+				// The remove call above will have decremented size, but we're really just moving it up in
+				// the tree; let's add back the decremented size
+				t.size++
+			}
+		}
+		t.size--
+	}
+
+	if root != nil {
+		root.height = root.GetHeight()
+		// Ensure tree is still balanced
+		root = t.balance(root)
+		root.height = root.GetHeight()
+	}
+
+	return root, nil
+}
+
+// balance ensures the subtree at the given root is balanced in accordance with the properties of an
+// AVL tree. This function may mutate the structure of the tree if it is unbalanced.
+func (t *AVLTree[T]) balance(root *AVLTreeNode[T]) *AVLTreeNode[T] {
 	// Check the balance factor
 	bFactor := root.GetBalanceFactor()
 
@@ -147,10 +223,19 @@ func (t *AVLTree[T]) insert(root *AVLTreeNode[T], elem T) (*AVLTreeNode[T], erro
 		root = t.rightRotation(root)
 	}
 
-	// Set the height
-	root.height = root.GetHeight()
+	return root
+}
 
-	return root, nil
+func (t *AVLTree[T]) findMin(root *AVLTreeNode[T]) *AVLTreeNode[T] {
+	if root == nil {
+		return root
+	}
+
+	if root.Left != nil {
+		return t.findMin(root.Left)
+	} else {
+		return root
+	}
 }
 
 // leftRotation will perform an AVL Left Rotation and return the new post-rotation root
