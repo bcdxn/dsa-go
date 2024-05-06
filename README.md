@@ -9,7 +9,7 @@
 - [x] Hash Table + Collision Handling
 - [x] BST
 - [ ] Heap
-- [ ] AVL
+- [x] AVL
 - [ ] Graph
 
 ## Algorithms
