@@ -8,7 +8,7 @@
 - [x] Stack (LIFO)
 - [x] Hash Table + Collision Handling
 - [x] BST
-- [ ] Heap
+- [x] Heap
 - [x] AVL
 - [ ] Graph
 
