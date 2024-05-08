@@ -25,6 +25,7 @@
 - [x] Insertion Sort
 - [x] Merge Sort
 - [x] Quick Sort
+- [x] Counting Sort
 - [ ] Shell Sort
 - [ ] Heap Sort
 

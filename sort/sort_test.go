@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/bcdxn/dsa-go/sort"
+	"github.com/stretchr/testify/assert"
 )
 
 // Test suite 'borrowed' from - https://github.com/TheAlgorithms/Go/blob/master/sort/sorts_test.go
@@ -123,4 +124,26 @@ func TestMergeSort(t *testing.T) {
 
 func TestQuickSort(t *testing.T) {
 	runTests(t, sort.Quick, false)
+}
+
+func TestCountingSort(t *testing.T) {
+	t.Run("Should return proper sort order", func(t *testing.T) {
+		list := []uint{7, 4, 6, 5, 8, 3, 2, 0, 9, 10, 9, 1}
+		expected := []uint{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10}
+
+		sorted := sort.Counting(list)
+		assert.Equal(t, expected, sorted)
+		assert.NotEqual(t, list, sorted, "Should not have side effects")
+	})
+}
+
+func TestInPlaceCountingSort(t *testing.T) {
+	t.Run("Should return proper sort order", func(t *testing.T) {
+		list := []uint{7, 4, 6, 5, 8, 3, 2, 0, 9, 10, 9, 1}
+		expected := []uint{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10}
+
+		sorted := sort.InPlaceCounting(list)
+		assert.Equal(t, expected, sorted)
+		assert.Equal(t, expected, list, "Should have side effects")
+	})
 }
