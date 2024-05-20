@@ -2,6 +2,7 @@ package ds
 
 import (
 	"errors"
+	"fmt"
 
 	"golang.org/x/exp/constraints"
 )
@@ -65,6 +66,27 @@ func (t *BST[T]) Remove(elem T) error {
 	}
 
 	return err
+}
+
+/* Collection of Depth-First Traversals
+------------------------------------------------------------------------------------------------- */
+
+func (t *BST[T]) InOrder() {
+	fmt.Print("[ ")
+	inOrder(t.Root)
+	fmt.Print("]\n")
+}
+
+func (t *BST[T]) PreOrder() {
+	fmt.Print("[ ")
+	preOrder(t.Root)
+	fmt.Print("]\n")
+}
+
+func (t *BST[T]) PostOrder() {
+	fmt.Print("[ ")
+	postOrder(t.Root)
+	fmt.Print("]\n")
 }
 
 /* Private helper functions
@@ -141,4 +163,34 @@ func (t BST[T]) findMin(root *TreeNode[T]) *TreeNode[T] {
 	}
 
 	return t.findMin(root.Left)
+}
+
+func inOrder[T constraints.Ordered](root *TreeNode[T]) {
+	if root == nil {
+		return
+	}
+
+	inOrder(root.Left)
+	fmt.Print(root.Elem, " ")
+	inOrder(root.Right)
+}
+
+func preOrder[T constraints.Ordered](root *TreeNode[T]) {
+	if root == nil {
+		return
+	}
+
+	fmt.Print(root.Elem, " ")
+	preOrder(root.Left)
+	preOrder(root.Right)
+}
+
+func postOrder[T constraints.Ordered](root *TreeNode[T]) {
+	if root == nil {
+		return
+	}
+
+	postOrder(root.Left)
+	postOrder(root.Right)
+	fmt.Print(root.Elem, " ")
 }

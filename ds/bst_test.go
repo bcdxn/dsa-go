@@ -31,32 +31,6 @@ func TestBstInsert(t *testing.T) {
 		tree.Insert(10)
 		assert.Equalf(t, 4, tree.Size(), "BST size should be incremented after insert")
 	})
-
-	// t.Run("Binary search tree properties should be maintained", func(t *testing.T) {
-	// 	tree := ds.NewBST[int]()
-
-	// 	tree.Insert(10)
-	// 	tree.Insert(5)
-	// 	tree.Insert(7)
-	// 	tree.Insert(17)
-	// 	tree.Insert(3)
-	// 	tree.Insert(24)
-	// 	tree.Insert(13)
-	// 	tree.Insert(15)
-	// 	tree.Insert(6)
-
-	// 	// root's left subtree
-	// 	assert.Equal(t, 5, tree.Root.Left.Elem)
-	// 	assert.Equal(t, 7, tree.Root.Left.Right.Elem)
-	// 	assert.Equal(t, 3, tree.Root.Left.Left.Elem)
-	// 	assert.Equal(t, 3, tree.Root.Left.Left.Elem)
-	// 	assert.Equal(t, 6, tree.Root.Left.Right.Left.Elem)
-	// 	// root's right subtree
-	// 	assert.Equal(t, 17, tree.Root.Right.Elem)
-	// 	assert.Equal(t, 13, tree.Root.Right.Left.Elem)
-	// 	assert.Equal(t, 24, tree.Root.Right.Right.Elem)
-	// 	assert.Equal(t, 15, tree.Root.Right.Left.Right.Elem)
-	// })
 }
 
 func TestBstFindMin(t *testing.T) {
@@ -254,5 +228,59 @@ func TestBstRemove(t *testing.T) {
 		}
 		assert.Equal(t, 7, tree.Size())
 		assert.Equal(t, 6, tree.Root.Left.Elem, "Left child should be promoted")
+	})
+}
+
+func TestBstInOrder(t *testing.T) {
+	t.Run("should print the nodes in order", func(t *testing.T) {
+		tree := ds.NewBST[int]()
+
+		tree.Insert(10)
+		tree.Insert(5)
+		tree.Insert(7)
+		tree.Insert(17)
+		tree.Insert(3)
+		tree.Insert(24)
+		tree.Insert(13)
+		tree.Insert(15)
+		tree.Insert(6)
+
+		tree.InOrder()
+	})
+}
+
+func TestBstPreOrder(t *testing.T) {
+	t.Run("should print in pre-order", func(t *testing.T) {
+		tree := ds.NewBST[int]()
+
+		tree.Insert(10)
+		tree.Insert(5)
+		tree.Insert(7)
+		tree.Insert(17)
+		tree.Insert(3)
+		tree.Insert(24)
+		tree.Insert(13)
+		tree.Insert(15)
+		tree.Insert(6)
+
+		tree.PreOrder()
+	})
+}
+
+func TestBstPostOrder(t *testing.T) {
+	t.Run("should print in post-order", func(t *testing.T) {
+		tree := ds.NewBST[int]()
+
+		tree.Insert(10)
+		tree.Insert(5)
+		tree.Insert(7)
+		tree.Insert(17)
+		tree.Insert(3)
+		tree.Insert(24)
+		tree.Insert(13)
+		tree.Insert(15)
+		tree.Insert(6)
+
+		tree.PostOrder()
 	})
 }
