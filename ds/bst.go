@@ -1,6 +1,7 @@
 package ds
 
 import (
+	"container/list"
 	"errors"
 	"fmt"
 
@@ -68,24 +69,62 @@ func (t *BST[T]) Remove(elem T) error {
 	return err
 }
 
-/* Collection of Depth-First Traversals
+/* Collection of Traversals
 ------------------------------------------------------------------------------------------------- */
 
-func (t *BST[T]) InOrder() {
+func (t BST[T]) InOrder() {
 	fmt.Print("[ ")
 	inOrder(t.Root)
 	fmt.Print("]\n")
 }
 
-func (t *BST[T]) PreOrder() {
+func (t BST[T]) PreOrder() {
 	fmt.Print("[ ")
 	preOrder(t.Root)
 	fmt.Print("]\n")
 }
 
-func (t *BST[T]) PostOrder() {
+func (t BST[T]) PostOrder() {
 	fmt.Print("[ ")
 	postOrder(t.Root)
+	fmt.Print("]\n")
+}
+
+func (t BST[T]) BreadthFirst() {
+	if t.Root == nil {
+		fmt.Println("[ ]")
+		return
+	}
+
+	q := list.New()
+	currNode := t.Root
+	q.PushBack(currNode)
+
+	fmt.Print("[ ")
+	for currNode != nil {
+		currNode = nil
+		l := q.Len()
+		for i := 0; i < l; i++ {
+			// Dequeue node to process
+			if n, ok := any(q.Front().Value).(*TreeNode[T]); ok {
+				currNode = n
+				q.Remove(q.Front())
+			} else {
+				panic("invalid type in BFS queue ")
+			}
+			// process current node
+			fmt.Print(currNode.Elem, " ")
+			// Add children to queue to be processed
+			if currNode.Left != nil {
+				// enqueue left child
+				q.PushBack(currNode.Left)
+			}
+			if currNode.Right != nil {
+				// enqueue right child
+				q.PushBack(currNode.Right)
+			}
+		}
+	}
 	fmt.Print("]\n")
 }
 

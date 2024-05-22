@@ -284,3 +284,21 @@ func TestBstPostOrder(t *testing.T) {
 		tree.PostOrder()
 	})
 }
+
+func TestBreadthFirst(t *testing.T) {
+	t.Run("should print in post-order", func(t *testing.T) {
+		tree := ds.NewBST[int]()
+
+		tree.Insert(10)
+		tree.Insert(5)
+		tree.Insert(7)
+		tree.Insert(17)
+		tree.Insert(3)
+		tree.Insert(24)
+		tree.Insert(13)
+		tree.Insert(15)
+		tree.Insert(6)
+
+		tree.BreadthFirst()
+	})
+}
