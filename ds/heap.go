@@ -51,14 +51,14 @@ func (h *MaxHeap[T]) Push(elem T) {
 	(*h.s)[h.lastIndex] = elem
 	h.size++
 	// Ensure heap property (percolate up)
-	parentIndex := h.parentIndex(h.lastIndex)
-	childIndex := h.lastIndex
-	for parentIndex > 0 {
-		if (*h.s)[parentIndex] < (*h.s)[childIndex] {
+	pi := parentIndex(h.lastIndex)
+	ci := h.lastIndex
+	for pi > 0 {
+		if (*h.s)[pi] < (*h.s)[ci] {
 			// nodes do not satisfy the heap property and must be swapped
-			(*h.s)[parentIndex], (*h.s)[childIndex] = (*h.s)[childIndex], (*h.s)[parentIndex]
-			childIndex = parentIndex
-			parentIndex = h.parentIndex(parentIndex)
+			(*h.s)[pi], (*h.s)[ci] = (*h.s)[ci], (*h.s)[pi]
+			ci = pi
+			pi = parentIndex(pi)
 		} else {
 			// nodes satisfy the heap property
 			break
@@ -81,25 +81,25 @@ func (h *MaxHeap[T]) Pop() (T, error) {
 	h.lastIndex--
 	// Ensure heap property (percolate down)
 	currIndex := 1
-	for h.leftChildIndex(currIndex) <= h.lastIndex {
-		left := h.leftChildIndex(currIndex)
-		right := h.rightChildIndex(currIndex)
+	for leftChildIndex(currIndex) <= h.lastIndex {
+		left := leftChildIndex(currIndex)
+		right := rightChildIndex(currIndex)
 
-		var minChildIndex int
+		var maxChildIndex int
 
 		if right <= h.lastIndex && (*h.s)[right] > (*h.s)[left] {
-			minChildIndex = right
+			maxChildIndex = right
 		} else if left <= h.lastIndex {
-			minChildIndex = left
+			maxChildIndex = left
 		} else {
 			// the node has no children and therefore satisfies the heap property
 			break
 		}
 
-		if (*h.s)[currIndex] < (*h.s)[minChildIndex] {
+		if (*h.s)[currIndex] < (*h.s)[maxChildIndex] {
 			// nodes do not satisfy the heap property and must be swapped
-			(*h.s)[currIndex], (*h.s)[minChildIndex] = (*h.s)[minChildIndex], (*h.s)[currIndex]
-			currIndex = minChildIndex
+			(*h.s)[currIndex], (*h.s)[maxChildIndex] = (*h.s)[maxChildIndex], (*h.s)[currIndex]
+			currIndex = maxChildIndex
 		} else {
 			// nodes satisfy the heap property
 			break
@@ -109,17 +109,64 @@ func (h *MaxHeap[T]) Pop() (T, error) {
 	return elem, nil
 }
 
+func Heapify[T constraints.Ordered](list []T) *MaxHeap[T] {
+	h := NewMaxHeap[T]()
+	h.heapify(list)
+	return h
+}
+
+func (h *MaxHeap[T]) heapify(list []T) *MaxHeap[T] {
+	if len(list) < 1 {
+		return h
+	}
+	h.size = len(list)
+	// Move 0th element in the list to the end to make pointer arthmetic simpler
+	list = append(list, list[0])
+	var empty T
+	list[0] = empty
+	h.s = &list
+	// We only need to 'percolate' elements with children; half the nodes
+	// in the heap will be leaf nodes
+	currIndex := len(*h.s) / 2
+	// Stop the loop when we've reached the second level of the heap (the root can't percolate up
+	// any more)
+	for currIndex > 0 {
+		percolateIndex := currIndex
+		for percolateIndex < len(*h.s)-1 {
+			li := leftChildIndex(percolateIndex)
+			ri := rightChildIndex(percolateIndex)
+			maxChildIndex := li
+			// Find the larger of the two children
+			if ri < len(*h.s) && (*h.s)[ri] > (*h.s)[li] {
+				maxChildIndex = ri
+			}
+			// swap with largest child (if largest child is greater than current node)
+			if maxChildIndex < len(*h.s) && (*h.s)[percolateIndex] < (*h.s)[maxChildIndex] {
+				(*h.s)[maxChildIndex], (*h.s)[percolateIndex] = (*h.s)[percolateIndex], (*h.s)[maxChildIndex]
+				percolateIndex = maxChildIndex
+			} else {
+				// the heap property is satisfied at the current node
+				break
+			}
+		}
+		// iterate 'up' the array to the root
+		currIndex--
+	}
+
+	return h
+}
+
 // leftChildIndex returns in the index of the left child of the node at the given index
-func (h MaxHeap[T]) leftChildIndex(i int) int {
+func leftChildIndex(i int) int {
 	return i * 2
 }
 
 // rightChildIndex returns in the index of the left child of the node at the given index
-func (h MaxHeap[T]) rightChildIndex(i int) int {
+func rightChildIndex(i int) int {
 	return (i * 2) + 1
 }
 
 // parentIndex returns in the index of the left child of the node at the given index
-func (h MaxHeap[T]) parentIndex(i int) int {
+func parentIndex(i int) int {
 	return i / 2
 }

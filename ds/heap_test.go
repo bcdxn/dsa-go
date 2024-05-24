@@ -118,3 +118,15 @@ func TestMaxHeapPop(t *testing.T) {
 		assert.Equal(t, 0, h.Size())
 	})
 }
+
+func TestHeapify(t *testing.T) {
+	t.Run("Heapify should return a valid heap", func(t *testing.T) {
+		list := []int{12, 1, 10, 5, 6, 3, 9, 11}
+
+		h := ds.Heapify(list)
+
+		elem, err := h.Pop()
+		assert.Nil(t, err)
+		assert.Equal(t, 12, elem)
+	})
+}
