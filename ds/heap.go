@@ -109,12 +109,15 @@ func (h *MaxHeap[T]) Pop() (T, error) {
 	return elem, nil
 }
 
+// Heapify converts the given list into a valid heap in O(n) time.
 func Heapify[T constraints.Ordered](list []T) *MaxHeap[T] {
 	h := NewMaxHeap[T]()
 	h.heapify(list)
 	return h
 }
 
+// heapify is a helper function to heapify a given list (giving us access to the private internal
+// slice that the heap is implemented on)
 func (h *MaxHeap[T]) heapify(list []T) *MaxHeap[T] {
 	if len(list) < 1 {
 		return h
