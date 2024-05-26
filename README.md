@@ -10,7 +10,9 @@
 - [x] BST
 - [x] Heap
 - [x] AVL
-- [ ] Graph
+- [x] Graph
+    - [x] Matrix
+    - [x] Adjacency List
 
 ## Algorithms
 
@@ -43,7 +45,7 @@
 - [ ] Tree Height
 - [ ] Detecting Cycles
 - [ ] Breadth First
-- [ ] Depth First
+- [x] Depth First
 - [ ] Dijkstra's algorithm (shortest path)
 
 ## Usage
