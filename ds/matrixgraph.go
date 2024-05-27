@@ -43,6 +43,28 @@ func (g *MatrixGraph) NumPaths(startRow, startCol, destRow, destCol int) int {
 	return g.numPaths(destRow, destCol, startRow, startCol, &visited)
 }
 
+// NumIslands returns the number of groupings of 'true' values in the graph.
+// e.g., there are 2 'islands' in the graph below:
+// 1 1 0 0
+// 1 0 0 1
+// 1 0 0 1
+func (g *MatrixGraph) NumIslands() int {
+	visited := make(map[string]struct{})
+	islandCount := 0
+
+	for r := range len(g.matrix) {
+		for c := range len(g.matrix[r]) {
+			_, hasVisited := visited[nodeKey(r, c)]
+			if g.matrix[r][c] && !hasVisited {
+				islandCount++
+				g.visitIslandNodes(r, c, &visited)
+			}
+		}
+	}
+
+	return islandCount
+}
+
 /* Private helper functions
 ------------------------------------------------------------------------------------------------- */
 
@@ -54,14 +76,12 @@ func (g *MatrixGraph) numPaths(
 	col int,
 	visited *map[string]struct{},
 ) int {
-	width := len(g.matrix)
 	// out of bounds (wider than row)
-	if row < 0 || row >= width {
+	if row < 0 || row >= len(g.matrix) {
 		return 0
 	}
-	height := len(g.matrix[row])
 	// out of bounds (taller than column)
-	if col < 0 || col >= height {
+	if col < 0 || col >= len(g.matrix[row]) {
 		return 0
 	}
 	// we reached a non-traversable node in the graph
@@ -91,6 +111,32 @@ func (g *MatrixGraph) numPaths(
 	delete(*visited, nodeKey(row, col))
 
 	return count
+}
+
+// A depth first search helper function that does not remove nodes from the path (useful when
+// counting groups or 'islands' within the graph).
+func (g *MatrixGraph) visitIslandNodes(row, col int, visited *map[string]struct{}) {
+	if row < 0 || row >= len(g.matrix) {
+		return // out of bounds
+	}
+	if col < 0 || col >= len(g.matrix[row]) {
+		return // out of bounds
+	}
+	if !g.matrix[row][col] {
+		return // hit water
+	}
+	_, hasVisited := (*visited)[nodeKey(row, col)]
+	if hasVisited {
+		return // already a part of an island
+	}
+
+	// Add the node to the visited set
+	(*visited)[nodeKey(row, col)] = struct{}{}
+
+	g.visitIslandNodes(row+1, col, visited)
+	g.visitIslandNodes(row-1, col, visited)
+	g.visitIslandNodes(row, col+1, visited)
+	g.visitIslandNodes(row, col-1, visited)
 }
 
 // nodeKey calculates a unique key for a node in the graph to be stored in the visited 'set' used

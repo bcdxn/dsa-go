@@ -82,3 +82,31 @@ func TestMatrixGraphNumPaths(t *testing.T) {
 		assert.Equal(t, 0, paths)
 	})
 }
+
+func TestMatrixGraphNumIslands(t *testing.T) {
+	t.Run("should count the correct number of islands", func(t *testing.T) {
+		g := ds.NewMatrixGraph([][]bool{
+			{false, true, true, true, false},
+			{false, true, false, true, false},
+			{true, true, false, false, false},
+			{false, false, false, false, false},
+		})
+
+		c := g.NumIslands()
+
+		assert.Equal(t, 1, c)
+	})
+
+	t.Run("should count the correct number of islands", func(t *testing.T) {
+		g := ds.NewMatrixGraph([][]bool{
+			{true, true, false, false, true},
+			{true, true, false, false, true},
+			{false, false, true, false, false},
+			{false, false, false, true, true},
+		})
+
+		c := g.NumIslands()
+
+		assert.Equal(t, 4, c)
+	})
+}
