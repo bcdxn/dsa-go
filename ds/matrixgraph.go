@@ -1,6 +1,11 @@
 package ds
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"strconv"
+	"strings"
+)
 
 type MatrixGraph struct {
 	matrix [][]bool
@@ -41,6 +46,52 @@ func (g *MatrixGraph) Stringify() string {
 func (g *MatrixGraph) NumPaths(startRow, startCol, destRow, destCol int) int {
 	visited := make(map[string]struct{})
 	return g.numPaths(destRow, destCol, startRow, startCol, &visited)
+}
+
+// ShortestPath returns the length of the shortest path from the given start row, column to the
+// given destination row, column
+func (g *MatrixGraph) ShortestPath(startRow, startCol, destRow, destCol int) (int, error) {
+	visited := make(map[string]struct{})
+	q := NewQueue[string]()
+	q.Enqueue(nodeKey(startRow, startCol))
+	visited[nodeKey(startRow, startCol)] = struct{}{}
+	length := 0
+
+	// Continue looping while the queue is not empty
+	for q.Depth() > 0 {
+		depth := q.Depth()
+
+		for range depth {
+			key, _ := q.Dequeue()
+			r, c := decodeKey(key)
+
+			if r == destRow && c == destCol {
+				// we've arrived at the destination
+				return length, nil
+			}
+			// Add all valid neighbors of the current node in the graph; check validity and add to queue
+			if g.isValidNeighbor(r-1, c, visited) {
+				q.Enqueue(nodeKey(r-1, c))
+				visited[nodeKey(r-1, c)] = struct{}{}
+			}
+			if g.isValidNeighbor(r+1, c, visited) {
+				q.Enqueue(nodeKey(r+1, c))
+				visited[nodeKey(r+1, c)] = struct{}{}
+			}
+			if g.isValidNeighbor(r, c-1, visited) {
+				q.Enqueue(nodeKey(r, c-1))
+				visited[nodeKey(r, c-1)] = struct{}{}
+			}
+			if g.isValidNeighbor(r, c+1, visited) {
+				q.Enqueue(nodeKey(r, c+1))
+				visited[nodeKey(r, c+1)] = struct{}{}
+			}
+		}
+
+		length += 1
+	}
+
+	return 0, errors.New("no path from start to destination found")
 }
 
 // NumIslands returns the number of groupings of 'true' values in the graph.
@@ -139,8 +190,32 @@ func (g *MatrixGraph) visitIslandNodes(row, col int, visited *map[string]struct{
 	g.visitIslandNodes(row, col-1, visited)
 }
 
+func (g *MatrixGraph) isValidNeighbor(row, col int, visited map[string]struct{}) bool {
+	if row < 0 || row >= len(g.matrix) {
+		return false
+	}
+	if col < 0 || col >= len(g.matrix[row]) {
+		return false
+	}
+	_, ok := visited[nodeKey(row, col)]
+	return !ok && g.matrix[row][col]
+}
+
 // nodeKey calculates a unique key for a node in the graph to be stored in the visited 'set' used
 // by the recursive DFS numPaths function so that we don't get stuck in cycles.
 func nodeKey(row, col int) string {
-	return fmt.Sprintf("%d%d", row, col)
+	return fmt.Sprintf("%d:%d", row, col)
+}
+
+func decodeKey(key string) (int, int) {
+	rc := strings.Split(key, ":")
+	r, err := strconv.Atoi(rc[0])
+	if err != nil {
+		panic("invalid row in key")
+	}
+	c, err := strconv.Atoi(rc[1])
+	if err != nil {
+		panic("invalid column key")
+	}
+	return r, c
 }

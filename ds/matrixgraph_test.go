@@ -110,3 +110,32 @@ func TestMatrixGraphNumIslands(t *testing.T) {
 		assert.Equal(t, 4, c)
 	})
 }
+
+func TestMatrixGraphShortestPath(t *testing.T) {
+	t.Run("should return the shortest path length from start to finish", func(t *testing.T) {
+		g := ds.NewMatrixGraph([][]bool{
+			{true, true, true, true},
+			{false, false, true, true},
+			{true, true, true, false},
+			{true, false, true, true},
+		})
+
+		l, err := g.ShortestPath(0, 0, 3, 3)
+
+		assert.Nil(t, err)
+		assert.Equal(t, 6, l)
+	})
+
+	t.Run("should return an error if thre is no valid path from start to destination", func(t *testing.T) {
+		g := ds.NewMatrixGraph([][]bool{
+			{true, true, false, false},
+			{false, false, false, false},
+			{true, true, true, false},
+			{true, false, true, true},
+		})
+
+		_, err := g.ShortestPath(0, 0, 3, 3)
+
+		assert.NotNil(t, err)
+	})
+}
