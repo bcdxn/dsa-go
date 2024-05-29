@@ -94,7 +94,7 @@ func (g *MatrixGraph) ShortestPath(startRow, startCol, destRow, destCol int) (in
 	return 0, errors.New("no path from start to destination found")
 }
 
-// NumIslands returns the number of groupings of 'true' values in the graph.
+// NumIslands returns the number of groupings of 'true' values in the graph using DFS.
 // e.g., there are 2 'islands' in the graph below:
 // 1 1 0 0
 // 1 0 0 1
@@ -114,6 +114,28 @@ func (g *MatrixGraph) NumIslands() int {
 	}
 
 	return islandCount
+}
+
+// NumIslands returns the number of groupings of 'true' values in the graph using BFS.
+func (g *MatrixGraph) NumIslandsBfs() int {
+	if len(g.matrix) < 1 && len(g.matrix[0]) < 1 {
+		// empty matrix cannot have islands
+		return 0
+	}
+
+	count := 0
+	visited := make(map[string]struct{})
+
+	for r := range len(g.matrix) {
+		for c := range len(g.matrix[r]) {
+			if _, hasVisited := visited[nodeKey(r, c)]; !hasVisited && g.matrix[r][c] {
+				count++
+				g.numIslandsBfs(r, c, &visited)
+			}
+		}
+	}
+
+	return count
 }
 
 /* Private helper functions
@@ -218,4 +240,41 @@ func decodeKey(key string) (int, int) {
 		panic("invalid column key")
 	}
 	return r, c
+}
+
+func (g *MatrixGraph) numIslandsBfs(startRow, startCol int, v *map[string]struct{}) {
+	q := NewQueue[string]()
+	(*v)[nodeKey(startRow, startCol)] = struct{}{}
+	q.Enqueue(nodeKey(startRow, startCol))
+
+	for q.Depth() > 0 {
+		l := q.Depth()
+
+		for range l {
+			rc, err := q.Dequeue()
+
+			if err != nil {
+				panic("invalid queue operation; dequing empty queue")
+			}
+
+			r, c := decodeKey(rc)
+
+			if g.isValidNeighbor(r-1, c, *v) {
+				q.Enqueue(nodeKey(r-1, c))
+				(*v)[nodeKey(r-1, c)] = struct{}{}
+			}
+			if g.isValidNeighbor(r+1, c, *v) {
+				q.Enqueue(nodeKey(r+1, c))
+				(*v)[nodeKey(r+1, c)] = struct{}{}
+			}
+			if g.isValidNeighbor(r, c-1, *v) {
+				q.Enqueue(nodeKey(r, c-1))
+				(*v)[nodeKey(r, c-1)] = struct{}{}
+			}
+			if g.isValidNeighbor(r, c+1, *v) {
+				q.Enqueue(nodeKey(r, c+1))
+				(*v)[nodeKey(r, c+1)] = struct{}{}
+			}
+		}
+	}
 }

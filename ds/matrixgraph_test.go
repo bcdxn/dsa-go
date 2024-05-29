@@ -111,6 +111,34 @@ func TestMatrixGraphNumIslands(t *testing.T) {
 	})
 }
 
+func TestMatrixGraphNumIslandsBfs(t *testing.T) {
+	t.Run("should count the correct number of islands", func(t *testing.T) {
+		g := ds.NewMatrixGraph([][]bool{
+			{false, true, true, true, false},
+			{false, true, false, true, false},
+			{true, true, false, false, false},
+			{false, false, false, false, false},
+		})
+
+		c := g.NumIslandsBfs()
+
+		assert.Equal(t, 1, c)
+	})
+
+	t.Run("should count the correct number of islands", func(t *testing.T) {
+		g := ds.NewMatrixGraph([][]bool{
+			{true, true, false, false, true},
+			{true, true, false, false, true},
+			{false, false, true, false, false},
+			{false, false, false, true, true},
+		})
+
+		c := g.NumIslandsBfs()
+
+		assert.Equal(t, 4, c)
+	})
+}
+
 func TestMatrixGraphShortestPath(t *testing.T) {
 	t.Run("should return the shortest path length from start to finish", func(t *testing.T) {
 		g := ds.NewMatrixGraph([][]bool{
