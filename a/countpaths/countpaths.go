@@ -38,3 +38,41 @@ func topDown(r, c, destR, destC int, grid [][]int, cache [][]int) int {
 	cache[r][c] = topDown(r+1, c, destR, destC, grid, cache) + topDown(r, c+1, destR, destC, grid, cache)
 	return cache[r][c]
 }
+
+// BottomUp counts the unique paths using a memory optimized memoization approach
+func BottomUp(startR, startC, destR, destC int, grid [][]int) int {
+	prevRow := make([]int, len(grid))
+
+	for i := destR; i >= startR; i-- {
+		currRow := make([]int, len(grid[i]))
+		currRow[destC] = 1
+		for j := destC - 1; j >= startC; j-- {
+			currRow[j] = prevRow[j] + currRow[j+1]
+		}
+		prevRow = currRow
+	}
+
+	return prevRow[startC]
+}
+
+// Not memory optimized
+// func BottomUp(startR, startC, destR, destC int, grid [][]int) int {
+// 	cache := make([][]int, len(grid))
+// 	for i := range len(cache) {
+// 		cache[i] = make([]int, len(grid[i]))
+// 	}
+
+// 	for i := destR; i >= startR; i-- {
+// 		for j := destC; j >= startC; j-- {
+// 			if i == destR {
+// 				cache[i][j] = 1
+// 			} else if j == destC {
+// 				cache[i][j] = 1
+// 			} else {
+// 				cache[i][j] = cache[i+1][j] + cache[i][j+1]
+// 			}
+// 		}
+// 	}
+
+// 	return cache[startR][startC]
+// }

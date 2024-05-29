@@ -36,3 +36,18 @@ func TestCountPathsTopDown(t *testing.T) {
 		assert.Equal(t, 20, countpaths.TopDown(0, 0, 3, 3, grid))
 	})
 }
+
+func TestCountPathsBottomUp(t *testing.T) {
+	t.Run("should return the number of paths", func(t *testing.T) {
+		grid := [][]int{
+			{1, 1, 1, 1},
+			{1, 1, 1, 1},
+			{1, 1, 1, 1},
+			{1, 1, 1, 1},
+		}
+
+		assert.Equal(t, 2, countpaths.BottomUp(2, 2, 3, 3, grid))
+		assert.Equal(t, 6, countpaths.BottomUp(1, 1, 3, 3, grid))
+		assert.Equal(t, 20, countpaths.BottomUp(0, 0, 3, 3, grid))
+	})
+}
